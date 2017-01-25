@@ -1,6 +1,9 @@
 from tkinter import *
 import edit_newspaper
 
+
+
+
 class Checkbar(Frame):
     def __init__(self, parent=None, picks=[], side=LEFT, anchor=W):
         Frame.__init__(self, parent)

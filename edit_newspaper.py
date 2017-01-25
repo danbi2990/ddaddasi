@@ -49,7 +49,7 @@ def get_articles(keyword, stop=50):
                 except AttributeError as e:
                     print(e)
                     continue
-                articles.append((url, title, major[site]))
+                articles.append((major[site], title, url))
                 # print(url + ": " + title + ", " + major[site])
     return articles
 
