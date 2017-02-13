@@ -1,7 +1,12 @@
 import tkinter as tk
 import webbrowser
+
 import edit_newspaper as news
 import upload_ddaddasi as up
+
+# pyinstaller --onedir --windowed ddaddasi.py
+# venv should be activated
+# https://pythonhosted.org/PyInstaller/usage.html
 
 class MainApplication(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
@@ -69,23 +74,25 @@ class MainApplication(tk.Frame):
         #             ('중앙', '기사제목3', 'http://joongang.joins.com'),
         #             ('중앙', '기사제목4', 'http://joongang.joins.com'))
         cnt = len(articles)
-        isChecked = [tk.IntVar() for _ in range(cnt)]
-        art = tk.Frame(self)
-        lab = tk.Label(art, width=10, text="기사", anchor='w')
-        butt = tk.Button(art, text='업로드', 
-                         command=(lambda a=articles,c=cnt,i=isChecked: self.set_article_html(a,c,i)))
 
-        for i in range(cnt):
-            cbox = tk.Checkbutton(art, text=articles[i][0]+': '+articles[i][1], variable=isChecked[i])
-            link = tk.Label(art, text=articles[i][2], fg="blue")
-            link.bind("<Button-1>", lambda event,e=articles[i][2]: self.open_url(event,e))
-            cbox.grid(column=1, row=i*2)
-            link.grid(column=1, row=i*2+1)
-            # cbox.pack(side=tk.RIGHT)
-        art.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
-        lab.grid(column=0, row=0, sticky=tk.W)
-        butt.grid(column=0, row=1)
-        # print([x.get() for x in isChecked])
+        if cnt:
+            isChecked = [tk.IntVar() for _ in range(cnt)]
+            art = tk.Frame(self)
+            lab = tk.Label(art, width=10, text="기사", anchor='w')
+            butt = tk.Button(art, text='업로드', 
+                             command=(lambda a=articles,c=cnt,i=isChecked: self.set_article_html(a,c,i)))
+
+            for i in range(cnt):
+                cbox = tk.Checkbutton(art, text=articles[i][0]+': '+articles[i][1], variable=isChecked[i])
+                link = tk.Label(art, text=articles[i][2], fg="blue")
+                link.bind("<Button-1>", lambda event,e=articles[i][2]: self.open_url(event,e))
+                cbox.grid(column=1, row=i*2)
+                link.grid(column=1, row=i*2+1)
+                # cbox.pack(side=tk.RIGHT)
+            art.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
+            lab.grid(column=0, row=0, sticky=tk.W)
+            butt.grid(column=0, row=1)
+            # print([x.get() for x in isChecked])
 
     def set_article_html(self, articles, cnt, isChecked):
         # self.fields_user_info = (['ID',''], ['PW',''], ['기자이름','ex) 박진우 기자'], ['email',''])
