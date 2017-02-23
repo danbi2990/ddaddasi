@@ -13,7 +13,7 @@ def format_articles(description, articles):
     for art in articles:
         res +="""            <p style="text-align: justify">-{0}</p>
             <p style="text-align: justify"><a target="_blank" href="{2}">{1}</a></p>
-""".format(art[0], art[1], art[2])
+""".format(art["publisher"], art["title"], art["url"])
     res += """            </td>
         </tr>
     </tbody>
@@ -26,8 +26,12 @@ def upload_ddaddasi(uid, upw, uname, email, title, subtitle, description, articl
 
     login_info = {'user_id': uid, 'user_pw': upw}
     s = session.post("http://www.danbinews.com/member/login.php", login_info)
+    if s.cookies:
+        raise Exception('비밀번호 틀림ㅋ')
+
     # print(s.cookies)
     # print(s.text)
+    # print(s.status_code)
 
     upload_info = {'mode': 'input', 'idxno': '', 'area': 'D', 'level': 'B', 'view_level': 'A', 'article_type': 'B',
                    'flash_tag': '', 'recognition': 'R', 'view_recognition': 'N', 'onoff': 'F', 'serial_number': '0',
@@ -41,6 +45,9 @@ def upload_ddaddasi(uid, upw, uname, email, title, subtitle, description, articl
                    'summary': '',
                    'FCKeditor1': format_articles(description, articles)}
     r = session.post("http://www.danbinews.com/news/userArticleWrite.php", upload_info)
+    return r.status_code
+    # print(r.status_code): 200 정상
+
     # print('called')
 
 # articles = (('조선','기사제목1','http://chosun.com'),
