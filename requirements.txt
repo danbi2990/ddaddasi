@@ -5,7 +5,9 @@ google==1.9.3
 packaging==16.8
 PyInstaller==3.2.1
 pyparsing==2.1.10
-pypiwin32==219
+pypiwin32==220
 requests==2.13.0
+selenium==3.0.2
 six==1.10.0
 urllib3==1.20
+wheel==0.24.0
