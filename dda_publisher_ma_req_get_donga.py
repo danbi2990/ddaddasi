@@ -4,8 +4,6 @@ from dda_publisher import Publisher
 동아
 url:
 http://news.donga.com/search?query={}&check_news=1%7C2%7C3%7C4%7C5
-한국일보, 서울신문, 국민일보, 문화일보, 세계일보, 연합뉴스,
-뉴스원, 뉴시스, 한국경제, 서울경제, 매일경제, 헤럴드경제
 """
 
 
@@ -29,3 +27,7 @@ class DongA(Publisher):
             pass
 
 
+# k = DongA()
+# k.set_keyword('김정남')
+# k.run()
+# print(k.articles)

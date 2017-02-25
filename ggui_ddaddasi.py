@@ -7,8 +7,9 @@ import dda_upload_ddaddasi as up
 import ffong_article_factory as af
 import pickle as pk
 from selenium import webdriver
-# from multiprocessing import Process, Queue, Pipe
+from multiprocessing import Process, Queue, Pipe
 import os
+import asyncio
 
 # pyinstaller --onedir --windowed ggui_ddaddasi.py
 # venv should be activated
@@ -20,6 +21,9 @@ class MainApplication(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
+
+        parent_conn, child_conn = Pipe()
+        self.process = Process(target=new_process, args=(child_conn,))
         # self.driver = webdriver.PhantomJS('./phantomjs/bin/phantomjs')
         # self.driver = None
 
@@ -35,6 +39,7 @@ class MainApplication(tk.Frame):
         # self.fields_user_info = (['ID','danbi2990'], ['PW','Today1234'], ['기자이름','박진우 기자'], ['email','danbi2990@gmail.com'])
         self.pack(side="top", fill="both", expand=True)
         self.e_u = [tk.StringVar() for _ in range(len(self.fields_user_info))]
+        # self.e_u = [tk.StringVar()]*len(self.fields_user_info)
         self.frame_user_info(self.fields_user_info)  # entries from user input
         self.e_k = tk.StringVar()
         self.frame_ddaddasi_keyword()    # entry ddaddasi keyword
@@ -223,13 +228,21 @@ class MainApplication(tk.Frame):
 
 
 def new_process(conn):
-    driver = [webdriver.PhantomJS('./phantomjs/bin/phantomjs')]
+    driver = webdriver.PhantomJS('./phantomjs/bin/phantomjs')
     print(driver)
-    conn.send(driver)
+    conn.send_bytes(driver)
     # qu.put(driver)
 
     # print(qu.get())
 
+def target(loop, timeout=None):
+    future = asyncio.run_coroutine_threadsafe(execute_phantom(), loop)
+    return future.result(timeout)
+
+async def execute_phantom():
+    await asyncio.sleep(1)
+    return webdriver.PhantomJS('./phantomjs/bin/phantomjs')
+    # future.set_result()
 
 if __name__ == "__main__":
     root = tk.Tk()
@@ -240,9 +253,18 @@ if __name__ == "__main__":
     # parent_conn, child_conn = Pipe()
     # p = Process(target=new_process, args=(child_conn,))
     # p.start()
-    # main.driver = parent_conn.recv()[0]
+    # main.driver = parent_conn.recv_bytes()
     # main.driver = q.get()
     # p.join()
+
+    # loop = asyncio.get_event_loop()
+    # # future = asyncio.Future()
+    # # future = asyncio.run_coroutine_threadsafe(execute_phantom(), loop)
+    # future = loop.run_in_executor(None, target, loop)
+
+    # loop.run_until_complete(future)
+    # loop.run_forever(future)
+
     root.mainloop()
 
     # main.driver.quit()

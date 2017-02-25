@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import quote
 
 
-def get_bs_obj(url):
+def get_bs_obj(url, method):
     html = urlopen(url)
     bs_obj = BeautifulSoup(html.read(), "html.parser")
     return bs_obj

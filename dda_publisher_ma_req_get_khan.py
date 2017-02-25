@@ -8,7 +8,7 @@ url: http://search.khan.co.kr/search.html?stb=khan&q=%EC%A0%84%EC%95%88%EB%B2%95
 
 class Khan(Publisher):
     def __init__(self):
-        super().__init__("경향신문", "http://search.khan.co.kr/search.html?stb=khan&q={}")
+        super().__init__("경향신문", "http://search.khan.co.kr/search.html?stb=khan&q={}", encoding="euc-kr")
 
     def navigate_article(self, bs_obj):
         try:

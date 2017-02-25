@@ -24,7 +24,7 @@ class YonHap(Publisher):
             pass
 
 
-y = YonHap()
-y.set_keyword("김정남")
-y.run()
-print(y.articles)
+# y = YonHap()
+# y.set_keyword("김정남")
+# y.run()
+# print(y.articles)

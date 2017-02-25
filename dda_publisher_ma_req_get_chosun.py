@@ -25,3 +25,7 @@ class ChoSun(Publisher):
             pass
 
 
+# k = ChoSun()
+# k.set_keyword('김정남')
+# k.run()
+# print(k.articles)
