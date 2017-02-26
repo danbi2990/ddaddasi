@@ -1,5 +1,6 @@
 from dda_publisher import Publisher
-from selenium import webdriver
+from seleniumrequests import PhantomJS
+# from selenium import webdriver
 from urllib.parse import quote
 import requests
 from bs4 import BeautifulSoup as bs
@@ -12,17 +13,17 @@ http://search3.segye.com/index.jsp
 
 
 class SeGye(Publisher):
-    def __init__(self):
-        super().__init__("세계일보", "http://search3.segye.com/index.jsp", method="post")
+    def __init__(self, web_driver):
+        super().__init__("세계일보", "http://search3.segye.com/index.jsp", method="post", is_selenium=True, web_driver=web_driver)
 
     def set_post_data(self):
         self.post_data = {
             "search_ContType": "article",
             "searchWord": self.keyword,
-            "period": "all",
-            "cust_media": "SGN",
-            "sfield": "title_body",
-            "searchWord2": self.keyword
+            "period": "all"
+            # "cust_media": "SGN",
+            # "sfield": "title_body",
+            # "searchWord2": self.keyword
         }
 
     # def run(self):
@@ -42,15 +43,15 @@ class SeGye(Publisher):
                 tag = dt_tag.a
                 try:
                     self.articles.append({"title": tag.get_text(), "publisher": self.name, "url": tag['href']})
-                except AttributeError:
+                except (AttributeError, KeyError):
                     pass
-        except AttributeError:
+        except (AttributeError, KeyError):
             pass
 
 
-# web_driver = webdriver.PhantomJS('./phantomjs/bin/phantomjs')
-m = SeGye()
-m.set_keyword("김정남")
-m.run()
-print(m.articles)
+# web_driver = PhantomJS('./phantomjs/bin/phantomjs')
+# m = SeGye(web_driver)
+# m.set_keyword("김정남")
+# m.run()
+# print(m.articles)
 # web_driver.quit()

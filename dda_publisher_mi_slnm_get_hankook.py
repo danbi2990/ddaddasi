@@ -23,7 +23,7 @@ class HanKook(Publisher):
                         self.articles.append({"title": tag.get_text().replace("한국일보 : ", ""), "publisher": self.name, "url": tag['href']})
                     except (AttributeError, KeyError):
                         pass
-        except AttributeError:
+        except (AttributeError, KeyError):
             pass
 
 

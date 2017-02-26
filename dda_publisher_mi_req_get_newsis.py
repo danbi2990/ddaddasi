@@ -21,9 +21,10 @@ class NewSis(Publisher):
                 tag = strong_tag.a
                 try:
                     self.articles.append({"title": tag.get_text(), "publisher": self.name, "url": "http://www.newsis.com"+tag['href']})
-                except AttributeError:
+
+                except (AttributeError, KeyError):
                     pass
-        except AttributeError:
+        except (AttributeError, KeyError):
             pass
 
 

@@ -62,7 +62,7 @@ class Publisher(threading.Thread):
 
             if self.method == "post":
                 self.set_post_data()
-                self.web_driver.open(self.base_url, "post", data=self.post_data)
+                r = self.web_driver.request("POST",self.base_url, data=self.post_data)
 
             else:   # method: get
                 # print(query)

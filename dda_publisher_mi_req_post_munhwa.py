@@ -26,9 +26,9 @@ class MunHwa(Publisher):
             for tag in remove_opinion:
                 try:
                     self.articles.append({"title": tag.get_text(), "publisher": self.name, "url": tag['href']})
-                except AttributeError:
+                except (AttributeError, KeyError):
                     pass
-        except AttributeError:
+        except (AttributeError, KeyError):
             pass
 
 

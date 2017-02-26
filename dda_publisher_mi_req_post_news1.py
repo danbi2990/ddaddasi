@@ -28,9 +28,9 @@ class NewsOne(Publisher):
                 tag = dt_tag.a
                 try:
                     self.articles.append({"title": tag.get_text(), "publisher": self.name, "url": tag['href']})
-                except AttributeError:
+                except (AttributeError, KeyError):
                     pass
-        except AttributeError:
+        except (AttributeError, KeyError):
             pass
 
 

@@ -15,17 +15,18 @@ from dda_publisher_mi_slnm_get_hankook import HanKook
 from dda_publisher_mi_slnm_get_kookmin import KookMin
 
 from dda_utils import search_definition, search_minor
+import time
+
 from multiprocessing import Process, Queue, Pipe
 from selenium import webdriver
 from urllib.parse import quote
 
-import time
+
 
 # def slow_article():
 #     driver = [webdriver.PhantomJS('./phantomjs/bin/phantomjs')]
 #     while True:
 #         p = (yield)
-
 
 
 def get_articles(keyword):

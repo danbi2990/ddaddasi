@@ -19,9 +19,9 @@ class ChoSun(Publisher):
                 try:
                     a_tag = tag.find("a")
                     self.articles.append({"title": a_tag.get_text(), "publisher": self.name, "url": a_tag['href']})
-                except AttributeError:
+                except (AttributeError, KeyError):
                     pass
-        except AttributeError:
+        except (AttributeError, KeyError):
             pass
 
 

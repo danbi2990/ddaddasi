@@ -23,9 +23,9 @@ class MaeKyung(Publisher):
                 # print(tag)
                 try:
                     self.articles.append({"title": tag.get_text().strip(), "publisher": self.name, "url": tag['href']})
-                except AttributeError:
+                except (AttributeError, KeyError):
                     pass
-        except AttributeError:
+        except (AttributeError, KeyError):
             pass
 
 
