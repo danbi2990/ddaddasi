@@ -23,13 +23,13 @@ from multiprocessing import Process, Queue, Pipe
 from selenium import webdriver
 from urllib.parse import quote
 
-publishers = [Khan(), Hani(), ChoSun(), Joins(), DongA(), Seoul(), NewSis(), HanKyung(), MaeKyung(), Herald(), NewsOne(), MunHwa()]
+# publishers = [Khan(), Hani(), ChoSun(), Joins(), DongA(), Seoul(), NewSis(), HanKyung(), MaeKyung(), Herald(), NewsOne(), MunHwa()]
 
-slnm_pubs = [HanKook(), KookMin(), YonHap(), SeoKyung()]
+# slnm_pubs = [HanKook(), KookMin(), YonHap(), SeoKyung()]
 
 def get_articles_child(drivers, keyword):
     res = []
-    # pubs = [HanKook(), KookMin(), YonHap(), SeoKyung()]
+    slnm_pubs = [HanKook(), KookMin(), YonHap(), SeoKyung()]
     # pubs = [SeoKyung()]
 
     start_time = time.time()
@@ -57,7 +57,7 @@ def get_articles(keyword, result_q):
     # res += search_definition(keyword)
 
     start_time = time.time()
-    # publishers = [Khan(), Hani(), ChoSun(), Joins(), DongA(), Seoul(), NewSis(), HanKyung(), MaeKyung(), Herald(), NewsOne(), MunHwa()]
+    publishers = [Khan(), Hani(), ChoSun(), Joins(), DongA(), Seoul(), NewSis(), HanKyung(), MaeKyung(), Herald(), NewsOne(), MunHwa()]
 
     for p in publishers:
         p.set_keyword(keyword)

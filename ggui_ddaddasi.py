@@ -9,7 +9,7 @@ import dda_upload_ddaddasi as up
 import ffong_article_factory as af
 import pickle as pk
 from selenium import webdriver
-from multiprocessing import Process, Queue, Pipe
+from multiprocessing import Process, Queue
 
 # pyinstaller --onedir --windowed ggui_ddaddasi.py
 # venv should be activated
@@ -242,7 +242,7 @@ class WebDrivers(threading.Thread):
 
 
 def new_process(sig_q, res_q):
-    wd = [WebDrivers() for _ in range(len(af.slnm_pubs))]
+    wd = [WebDrivers() for _ in range(4)]
     for w in wd:
         w.start()
 
