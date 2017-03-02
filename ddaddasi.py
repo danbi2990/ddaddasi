@@ -9,9 +9,9 @@ import dda_upload_ddaddasi as up
 import ffong_article_factory as af
 import pickle as pk
 from selenium import webdriver
-from multiprocessing import Process, Queue
+from multiprocessing import Process, Queue, freeze_support
 
-# pyinstaller --onedir --windowed ggui_ddaddasi.py
+# pyinstaller --onedir --windowed ddaddasi.py
 # venv should be activated
 # https://pythonhosted.org/PyInstaller/usage.html
 
@@ -24,16 +24,13 @@ class MainApplication(tk.Frame):
         try:
             fp = open("data.pkl", "rb")
         except FileNotFoundError:
-            self.fields_user_info = (
-            ['ID', ''], ['PW', ''], ['기자이름', ''], ['email', ''])
+            self.fields_user_info = (['ID', ''], ['PW', ''], ['기자이름', '박진우 기자'], ['email', ''])
         else:
             with fp:
                 self.fields_user_info = pk.load(fp)
 
-        # self.fields_user_info = (['ID','danbi2990'], ['PW','Today1234'], ['기자이름','박진우 기자'], ['email','danbi2990@gmail.com'])
         self.pack(side="top", fill="both", expand=True)
         self.e_u = [tk.StringVar() for _ in range(len(self.fields_user_info))]
-        # self.e_u = [tk.StringVar()]*len(self.fields_user_info)
         self.frame_user_info(self.fields_user_info)  # entries from user input
         self.e_k = tk.StringVar()
         self.frame_ddaddasi_keyword()    # entry ddaddasi keyword
@@ -116,7 +113,7 @@ class MainApplication(tk.Frame):
         top.geometry("%dx%d%+d%+d" % (600, 600, 250, 125))
 
         if cnt:
-            isChecked = [tk.IntVar() for _ in range(cnt)]
+            is_checked = [tk.IntVar() for _ in range(cnt)]
             canvas = tk.Canvas(top, borderwidth=0)
             art = tk.Frame(canvas)
             scr = tk.Scrollbar(canvas, orient="vertical", command=canvas.yview)
@@ -132,11 +129,11 @@ class MainApplication(tk.Frame):
             art.bind("<Configure>", lambda event, canvas=canvas: self.onFrameConfigure(canvas))
 
             butt = tk.Button(art, text='선택',
-                             command=(lambda a=articles, c=cnt, i=isChecked: self.insert_article(a, c, i)))
+                             command=(lambda a=articles, c=cnt, i=is_checked: self.insert_article(a, c, i)))
             butt2 = tk.Button(art, text='닫기', command=lambda w=top: w.destroy())
 
             for i in range(cnt):
-                cbox = tk.Checkbutton(art, text=articles[i]["publisher"]+': '+articles[i]["title"], variable=isChecked[i]) if articles[i]["title"] else tk.Label(art, text=articles[i]["publisher"])
+                cbox = tk.Checkbutton(art, text=articles[i]["publisher"]+': '+articles[i]["title"], variable=is_checked[i]) if articles[i]["title"] else tk.Label(art, text=articles[i]["publisher"])
                 link = tk.Label(art, text=articles[i]["url"], fg="blue")
                 link.bind("<Button-1>", lambda event,e=articles[i]["url"]: self.open_url(event,e))
                 cbox.grid(column=1, row=i*2, sticky=tk.W if articles[i]["title"] else tk.N)
@@ -190,7 +187,6 @@ class MainApplication(tk.Frame):
                 link = tk.Label(fr, text="Click << 확인하기", fg="blue")
                 link.bind("<Button-1>",
                           lambda event, e="http://www.danbinews.com/member/myHome.html": self.open_url(event, e))
-                # http://www.danbinews.com/member/myHome.html
                 butt = tk.Button(fr, text="닫기", command=lambda w=top: w.destroy())
                 fr.pack(expand=True, fill=tk.X, padx=5, pady=5)
                 lab.pack()
@@ -267,7 +263,7 @@ def new_process(sig_q, res_q):
 
 
 if __name__ == "__main__":
-
+    freeze_support()
     root = tk.Tk()
     root.title("따따시 귀찮아 죽겠네")
     main = MainApplication(root)
