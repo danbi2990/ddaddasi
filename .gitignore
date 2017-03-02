@@ -92,3 +92,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
+.idea/deployment.xml
+.idea/remote-mappings.xml
+.idea/workspace.xml
+data.pkl
+phantomjs/

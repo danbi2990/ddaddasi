@@ -7,7 +7,7 @@ import threading
 
 
 class Publisher(threading.Thread):
-    def __init__(self, name, base_url, encoding="utf-8", method="", is_selenium=False, web_driver=None,is_url_variable=False):
+    def __init__(self, name, base_url, encoding="utf-8", method="", is_selenium=False, is_url_variable=False, web_driver=None, sleep=0):
         super().__init__()
         self.name = name
         self.base_url = base_url
@@ -23,6 +23,7 @@ class Publisher(threading.Thread):
 
         self.is_selenium = is_selenium  # phantomJS used?
         self.web_driver = web_driver    # phantom obj
+        self.sleep = sleep
 
     def run(self):
         bs_obj = self.get_bs_obj()
@@ -33,6 +34,9 @@ class Publisher(threading.Thread):
 
     def navigate_article(self, bs_obj):
         pass
+
+    def set_web_driver(self, driver):
+        self.web_driver = driver
 
     def set_keyword(self, keyword):
         if self.encoding != "utf-8":   # euc-kr
@@ -67,6 +71,7 @@ class Publisher(threading.Thread):
             else:   # method: get
                 # print(query)
                 self.web_driver.get(query)
+                time.sleep(self.sleep)
             html = self.web_driver.page_source
 
         bs_obj = BeautifulSoup(html, "html.parser")

@@ -9,8 +9,8 @@ http://www.yonhapnews.co.kr/home09/7091000000.html?query={}
 
 
 class YonHap(Publisher):
-    def __init__(self, web_driver):
-        super().__init__("연합뉴스", "http://www.yonhapnews.co.kr/home09/7091000000.html?query={}", is_selenium=True, web_driver=web_driver)
+    def __init__(self):
+        super().__init__("연합뉴스", "http://www.yonhapnews.co.kr/home09/7091000000.html?query={}", is_selenium=True)
 
     def navigate_article(self, bs_obj):
         try:
@@ -21,6 +21,7 @@ class YonHap(Publisher):
                     self.articles.append({"title": tag.find("span",{"class":"tt2"}).get_text(), "publisher": self.name, "url": tag['href']})
                 except (AttributeError, KeyError):
                     pass
+            # print(self.name)
         except (AttributeError, KeyError):
             pass
 

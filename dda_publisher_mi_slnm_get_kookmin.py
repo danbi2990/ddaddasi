@@ -13,8 +13,8 @@ http://www.kmib.co.kr/search/result.asp?q={}
 
 
 class KookMin(Publisher):
-    def __init__(self, web_driver):
-        super().__init__("국민일보", "http://www.kmib.co.kr/search/result.asp?q={}", encoding="euc-kr", is_selenium=True, web_driver=web_driver)
+    def __init__(self):
+        super().__init__("국민일보", "http://www.kmib.co.kr/search/result.asp?q={}", encoding="euc-kr", is_selenium=True)
 
     def navigate_article(self, bs_obj):
         try:
@@ -27,13 +27,19 @@ class KookMin(Publisher):
                         self.articles.append({"title": tag.get_text().replace("-국민일보", ""), "publisher": self.name, "url": tag['href']})
                     except (AttributeError, KeyError):
                         pass
+            # print(self.name)
         except (AttributeError, IndexError):
             pass
 
-
 # web_driver = webdriver.PhantomJS('./phantomjs/bin/phantomjs')
-# h = KookMin(web_driver)
+# h = KookMin()
+#
+# stime = time.time()
+# h.set_web_driver(web_driver)
 # h.set_keyword("김정남")
 # h.run()
-# print(h.articles)
+# etime = time.time()
+# print("Child Duration: ", etime - stime)
+#
+# # print(h.articles)
 # web_driver.quit()

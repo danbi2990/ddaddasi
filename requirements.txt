@@ -1,13 +1,16 @@
-appdirs==1.4.0
+appdirs==1.4.2
 beautifulsoup4==4.5.3
 future==0.16.0
 google==1.9.3
+idna==2.2
 packaging==16.8
 PyInstaller==3.2.1
 pyparsing==2.1.10
 pypiwin32==220
 requests==2.13.0
+requests-file==1.4.1
 selenium==3.0.2
 six==1.10.0
+tldextract==2.0.2
 urllib3==1.20
 wheel==0.24.0

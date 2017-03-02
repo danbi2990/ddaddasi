@@ -1,5 +1,7 @@
+import threading
 import tkinter as tk
 import webbrowser
+from urllib.parse import quote
 
 import time
 
@@ -8,24 +10,16 @@ import ffong_article_factory as af
 import pickle as pk
 from selenium import webdriver
 from multiprocessing import Process, Queue, Pipe
-import os
-import asyncio
 
 # pyinstaller --onedir --windowed ggui_ddaddasi.py
 # venv should be activated
 # https://pythonhosted.org/PyInstaller/usage.html
-
 
 class MainApplication(tk.Frame):
 
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
-
-        parent_conn, child_conn = Pipe()
-        self.process = Process(target=new_process, args=(child_conn,))
-        # self.driver = webdriver.PhantomJS('./phantomjs/bin/phantomjs')
-        # self.driver = None
 
         try:
             fp = open("data.pkl", "rb")
@@ -68,18 +62,28 @@ class MainApplication(tk.Frame):
             lab.pack(side=tk.LEFT)
             ent.pack(side=tk.RIGHT, expand=tk.YES, fill=tk.X)
 
+    def search_definition(self, e):
+        eve = None
+        quoted_keyword = quote(e.get())
+        url_naver = "http://terms.naver.com/search.nhn?query={}&searchType=&dicType=&subject=".format(quoted_keyword)
+        url_wiki = "https://ko.wikipedia.org/wiki/{}".format(quoted_keyword)
+        self.open_url(eve, url_naver)
+        self.open_url(eve, url_wiki)
 
     def frame_ddaddasi_keyword(self):
         row = tk.Frame(self)
         lab = tk.Label(row, width=10, text="용어", anchor='w')
         ent = tk.Entry(row, textvariable=self.e_k)
         ent.focus_set()
-        butt = tk.Button(row, text='기사 검색', command=(lambda e=ent: self.search_article(e)))
+
+        butt1 = tk.Button(row, text='정의 검색', command=(lambda e=ent: self.search_definition(e)))
+        butt2 = tk.Button(row, text='기사 검색', command=(lambda e=ent: self.search_article(e)))
 
         row.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
         lab.pack(side=tk.LEFT)
         ent.pack(side=tk.LEFT, expand=tk.YES, fill=tk.X)
-        butt.pack(side=tk.RIGHT, padx=5, pady=5)
+        butt2.pack(side=tk.RIGHT, padx=5, pady=5)
+        butt1.pack(side=tk.RIGHT, padx=5, pady=5)
         # return ent.get()
 
 
@@ -101,7 +105,8 @@ class MainApplication(tk.Frame):
 
 
     def search_article(self, ent):
-        articles = af.get_articles(ent.get())
+        signal_q.put(ent.get())
+        articles = af.get_articles(ent.get(), result_q)
         # articles = (('조선','기사제목1','http://chosun.com'),
         #             ('중앙','기사제목2','http://joongang.joins.com'),
         #             ('중앙', '기사제목3', 'http://joongang.joins.com'),
@@ -227,45 +232,51 @@ class MainApplication(tk.Frame):
         return tex
 
 
-def new_process(conn):
-    driver = webdriver.PhantomJS('./phantomjs/bin/phantomjs')
-    print(driver)
-    conn.send_bytes(driver)
-    # qu.put(driver)
+class WebDrivers(threading.Thread):
+    def __init__(self):
+        super().__init__()
+        self.web_driver = None
 
-    # print(qu.get())
+    def run(self):
+        self.web_driver = webdriver.PhantomJS('./phantomjs/bin/phantomjs')
 
 
-def target(loop, timeout=None):
-    future = asyncio.run_coroutine_threadsafe(execute_phantom(), loop)
-    return future.result(timeout)
+def new_process(sig_q, res_q):
+    wd = [WebDrivers() for _ in range(len(af.slnm_pubs))]
+    for w in wd:
+        w.start()
 
-async def execute_phantom():
-    await asyncio.sleep(1)
-    return webdriver.PhantomJS('./phantomjs/bin/phantomjs')
-    # future.set_result()
+    for w in wd:
+        w.join()
+
+    # print(len(wd))
+
+    while True:
+        if not sig_q.empty():
+            keyword = sig_q.get()
+            if keyword == "q":
+                break
+            else:
+                res_q.put(af.get_articles_child(wd, keyword))
+
+    for w in wd:
+        try:
+            w.web_driver.quit()
+        except OSError:
+            pass
+
 
 if __name__ == "__main__":
+
     root = tk.Tk()
     root.title("따따시 귀찮아 죽겠네")
     main = MainApplication(root)
 
-    # q = Queue()
-    # parent_conn, child_conn = Pipe()
-    # p = Process(target=new_process, args=(child_conn,))
-    # p.start()
-    # main.driver = parent_conn.recv_bytes()
-    # main.driver = q.get()
-    # p.join()
-
-    # loop = asyncio.get_event_loop()
-    # # future = asyncio.Future()
-    # # future = asyncio.run_coroutine_threadsafe(execute_phantom(), loop)
-    # future = loop.run_in_executor(None, target, loop)
-
-    # loop.run_until_complete(future)
-    # loop.run_forever(future)
+    signal_q = Queue()
+    result_q = Queue()
+    p = Process(target=new_process, args=(signal_q, result_q))
+    p.start()
 
     root.mainloop()
-
-    # main.driver.quit()
+    signal_q.put('q')
+    p.join()

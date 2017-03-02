@@ -13,6 +13,8 @@ from dda_publisher_mi_req_post_munhwa import MunHwa
 
 from dda_publisher_mi_slnm_get_hankook import HanKook
 from dda_publisher_mi_slnm_get_kookmin import KookMin
+from dda_publisher_mi_slnm_get_seokyung import SeoKyung
+from dda_publisher_mi_slnm_get_yonhap import YonHap
 
 from dda_utils import search_definition, search_minor
 import time
@@ -21,22 +23,42 @@ from multiprocessing import Process, Queue, Pipe
 from selenium import webdriver
 from urllib.parse import quote
 
+publishers = [Khan(), Hani(), ChoSun(), Joins(), DongA(), Seoul(), NewSis(), HanKyung(), MaeKyung(), Herald(), NewsOne(), MunHwa()]
 
+slnm_pubs = [HanKook(), KookMin(), YonHap(), SeoKyung()]
 
-# def slow_article():
-#     driver = [webdriver.PhantomJS('./phantomjs/bin/phantomjs')]
-#     while True:
-#         p = (yield)
-
-
-def get_articles(keyword):
+def get_articles_child(drivers, keyword):
     res = []
-    res += search_definition(keyword)
+    # pubs = [HanKook(), KookMin(), YonHap(), SeoKyung()]
+    # pubs = [SeoKyung()]
 
     start_time = time.time()
 
-    # HanKook(), KookMin() excluded
-    publishers = [Khan(), Hani(), ChoSun(), Joins(), DongA(), Seoul(), NewSis(), HanKyung(), MaeKyung(), Herald(), NewsOne(), MunHwa()]
+    for i in range(len(slnm_pubs)):
+        slnm_pubs[i].set_keyword(keyword)
+        slnm_pubs[i].set_web_driver(drivers[i].web_driver)
+        slnm_pubs[i].start()
+        # print(i)
+
+    for p in slnm_pubs:
+        p.join()
+
+    for p in slnm_pubs:
+        res += p.articles[:2]
+
+    end_time = time.time()
+    print("Child Duration: ", end_time - start_time)
+
+    return res
+
+
+def get_articles(keyword, result_q):
+    res = []
+    # res += search_definition(keyword)
+
+    start_time = time.time()
+    # publishers = [Khan(), Hani(), ChoSun(), Joins(), DongA(), Seoul(), NewSis(), HanKyung(), MaeKyung(), Herald(), NewsOne(), MunHwa()]
+
     for p in publishers:
         p.set_keyword(keyword)
         p.start()
@@ -49,8 +71,16 @@ def get_articles(keyword):
 
     # res += search_minor(keyword)
 
+    timeout = time.time() + 10
+    while True:
+        if not result_q.empty():
+            res += result_q.get()
+            break
+        if time.time() > timeout:
+            break
+
     end_time = time.time()
-    print("Duration: ", end_time - start_time)
+    print("Parent Duration: ", end_time - start_time)
 
     return res
 

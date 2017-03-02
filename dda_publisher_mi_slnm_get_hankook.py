@@ -10,8 +10,8 @@ http://hankookilbo.com/fd.aspx?q={}
 
 
 class HanKook(Publisher):
-    def __init__(self, web_driver=None):
-        super().__init__("한국일보", "http://hankookilbo.com/fd.aspx?q={}", is_selenium=True, web_driver=web_driver)
+    def __init__(self):
+        super().__init__("한국일보", "http://hankookilbo.com/fd.aspx?q={}", is_selenium=True)
 
     def navigate_article(self, bs_obj):
         try:
@@ -23,12 +23,14 @@ class HanKook(Publisher):
                         self.articles.append({"title": tag.get_text().replace("한국일보 : ", ""), "publisher": self.name, "url": tag['href']})
                     except (AttributeError, KeyError):
                         pass
+            # print(self.name)
         except (AttributeError, KeyError):
             pass
 
 
 # web_driver = webdriver.PhantomJS('./phantomjs/bin/phantomjs')
-# h = HanKook(web_driver)
+# h = HanKook()
+# h.set_web_driver(web_driver)
 # h.set_keyword("김정남")
 # h.run()
 # print(h.articles)
