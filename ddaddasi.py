@@ -73,14 +73,15 @@ class MainApplication(tk.Frame):
         ent = tk.Entry(row, textvariable=self.e_k)
         ent.focus_set()
 
-        butt1 = tk.Button(row, text='정의 검색', command=(lambda e=ent: self.search_definition(e)))
+        # butt1 = tk.Button(row, text='정의 검색', command=(lambda e=ent: self.search_definition(e)))
         butt2 = tk.Button(row, text='기사 검색', command=(lambda e=ent: self.search_article(e)))
 
         row.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
         lab.pack(side=tk.LEFT)
         ent.pack(side=tk.LEFT, expand=tk.YES, fill=tk.X)
         butt2.pack(side=tk.RIGHT, padx=5, pady=5)
-        butt1.pack(side=tk.RIGHT, padx=5, pady=5)
+        # butt1.pack(side=tk.RIGHT, padx=5, pady=5)
+
         # return ent.get()
 
 
@@ -102,8 +103,10 @@ class MainApplication(tk.Frame):
 
 
     def search_article(self, ent):
-        signal_q.put(ent.get())
-        articles = af.get_articles(ent.get(), result_q)
+        # signal_q.put(ent.get())
+        # articles = af.get_articles(ent.get(), result_q)
+        articles = af.get_articles(ent.get())
+
         # articles = (('조선','기사제목1','http://chosun.com'),
         #             ('중앙','기사제목2','http://joongang.joins.com'),
         #             ('중앙', '기사제목3', 'http://joongang.joins.com'),
@@ -228,38 +231,38 @@ class MainApplication(tk.Frame):
         return tex
 
 
-class WebDrivers(threading.Thread):
-    def __init__(self):
-        super().__init__()
-        self.web_driver = None
-
-    def run(self):
-        self.web_driver = webdriver.PhantomJS('./phantomjs/bin/phantomjs')
-
-
-def new_process(sig_q, res_q):
-    wd = [WebDrivers() for _ in range(4)]
-    for w in wd:
-        w.start()
-
-    for w in wd:
-        w.join()
-
-    # print(len(wd))
-
-    while True:
-        if not sig_q.empty():
-            keyword = sig_q.get()
-            if keyword == "q":
-                break
-            else:
-                res_q.put(af.get_articles_child(wd, keyword))
-
-    for w in wd:
-        try:
-            w.web_driver.quit()
-        except OSError:
-            pass
+# class WebDrivers(threading.Thread):
+#     def __init__(self):
+#         super().__init__()
+#         self.web_driver = None
+#
+#     def run(self):
+#         self.web_driver = webdriver.PhantomJS('./phantomjs/bin/phantomjs')
+#
+#
+# def new_process(sig_q, res_q):
+#     wd = [WebDrivers() for _ in range(4)]
+#     for w in wd:
+#         w.start()
+#
+#     for w in wd:
+#         w.join()
+#
+#     # print(len(wd))
+#
+#     while True:
+#         if not sig_q.empty():
+#             keyword = sig_q.get()
+#             if keyword == "q":
+#                 break
+#             else:
+#                 res_q.put(af.get_articles_child(wd, keyword))
+#
+#     for w in wd:
+#         try:
+#             w.web_driver.quit()
+#         except OSError:
+#             pass
 
 
 if __name__ == "__main__":
@@ -268,11 +271,11 @@ if __name__ == "__main__":
     root.title("따따시 귀찮아 죽겠네")
     main = MainApplication(root)
 
-    signal_q = Queue()
-    result_q = Queue()
-    p = Process(target=new_process, args=(signal_q, result_q))
-    p.start()
+    # signal_q = Queue()
+    # result_q = Queue()
+    # p = Process(target=new_process, args=(signal_q, result_q))
+    # p.start()
 
     root.mainloop()
-    signal_q.put('q')
-    p.join()
+    # signal_q.put('q')
+    # p.join()

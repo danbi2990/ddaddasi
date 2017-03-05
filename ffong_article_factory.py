@@ -52,9 +52,9 @@ def get_articles_child(drivers, keyword):
     return res
 
 
-def get_articles(keyword, result_q):
+def get_articles(keyword, result_q=None):
     res = []
-    # res += search_definition(keyword)
+    res += search_definition(keyword)
 
     start_time = time.time()
     publishers = [Khan(), Hani(), ChoSun(), Joins(), DongA(), Seoul(), NewSis(), HanKyung(), MaeKyung(), Herald(), NewsOne(), MunHwa()]
@@ -71,14 +71,14 @@ def get_articles(keyword, result_q):
 
     # res += search_minor(keyword)
 
-    timeout = time.time() + 10
-    while True:
-        if not result_q.empty():
-            res += result_q.get()
-            break
-        if time.time() > timeout:
-            break
-
+    # timeout = time.time() + 10
+    # while True:
+    #     if not result_q.empty():
+    #         res += result_q.get()
+    #         break
+    #     if time.time() > timeout:
+    #         break
+    #
     end_time = time.time()
     print("Parent Duration: ", end_time - start_time)
 
