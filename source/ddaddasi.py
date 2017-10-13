@@ -1,18 +1,16 @@
-import tkinter as tk
 import pickle as pk
 import tkinter as tk
 import webbrowser
 from multiprocessing import freeze_support
 from urllib.parse import quote
 
-import ffong_article_factory as af
-
+from source import ffong_article_factory as af
 from source import dda_upload_ddaddasi as up
 
-
-# pyinstaller --onedir --windowed ddaddasi.py
 # venv should be activated
+# pyinstaller --onedir --windowed ddaddasi.py
 # https://pythonhosted.org/PyInstaller/usage.html
+
 
 class MainApplication(tk.Frame):
 
@@ -38,7 +36,6 @@ class MainApplication(tk.Frame):
         self.e_kd = self.frame_ddaddasi_description()   # entry ddaddasi description
         self.frame_article = tk.Frame(self)
         self.frame_article.pack()
-
 
     def frame_user_info(self, fields):
         for i in range(len(fields)):
@@ -83,7 +80,6 @@ class MainApplication(tk.Frame):
 
         # return ent.get()
 
-
     def frame_ddaddasi_meaning(self):
         row = tk.Frame(self)
         lab = tk.Label(row, width=10, text="한줄요약", anchor='w')
@@ -94,12 +90,10 @@ class MainApplication(tk.Frame):
         ent.pack(side=tk.LEFT, expand=tk.YES, fill=tk.X)
         # return ent.get()
 
-
     def popup(self, txt):
         top = tk.Toplevel()
         lab = tk.Label(top, text=txt, height=20, width=50)
         lab.pack()
-
 
     def search_article(self, ent):
         # signal_q.put(ent.get())
@@ -147,15 +141,12 @@ class MainApplication(tk.Frame):
             lab = tk.Label(top, text="기사가 없습니다.", height=20, width=50)
             lab.pack()
 
-
     def onFrameConfigure(self, canvas):
         '''Reset the scroll region to encompass the inner frame'''
         canvas.configure(scrollregion=canvas.bbox("all"))
 
-
     def _on_mousewheel(self, event, canvas):
         canvas.yview_scroll(-1 * (event.delta // 120), "units")
-
 
     def insert_article(self, articles, cnt, isChecked):
         art = self.frame_article
@@ -175,7 +166,6 @@ class MainApplication(tk.Frame):
             link.grid(column=0, row=idx * 2 + 1)
         butt.grid(column=1, row=0)
         butt2.grid(column=1, row=1)
-
 
     def upload_article(self, selected):
         try:
@@ -209,10 +199,8 @@ class MainApplication(tk.Frame):
             butt = tk.Button(top, text="닫기", command=lambda w=top: w.destroy())
             butt.pack()
 
-
     def open_url(self, event, url):
         webbrowser.open_new(url)
-
 
     def frame_ddaddasi_description(self):
         des = tk.Frame(self)

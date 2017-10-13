@@ -10,6 +10,6 @@ It helps the members to upload 'ddaddasi' to the website.
 - pip install -r requirements.txt
 - Navigate to the project directory
 - pyinstaller --onedir --windowed ddaddasi.py
-
+  - https://pythonhosted.org/PyInstaller/usage.html
 # How it works
 
