@@ -1,5 +1,5 @@
 
-from dda_publisher import Publisher
+from source.dda_publisher import Publisher
 
 """
 문화일보

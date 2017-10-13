@@ -4,7 +4,7 @@ future==0.16.0
 google==1.9.3
 idna==2.2
 packaging==16.8
-PyInstaller==3.2.1
+PyInstaller==3.3
 pyparsing==2.1.10
 pypiwin32==220
 requests==2.13.0

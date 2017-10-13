@@ -1,5 +1,4 @@
-from dda_publisher import Publisher
-from selenium import webdriver
+from source.dda_publisher import Publisher
 
 """
 연합뉴스

@@ -1,7 +1,15 @@
-# Warning: This program is only for members of danbinews.com
+# Warning: This program is only for the members of danbinews.com
 
 # What is it?
 It helps the members to upload 'ddaddasi' to the website.  
-'ddaddasi' means 'news terminology' in Korean roughly.
+'ddaddasi' roughly means 'news terminology' in Korean. (따끈따끈 시사용어)
+
+# How to build
+- Python 3.6 (32 bit)
+- Create & Activate virtual environment
+- pip install -r requirements.txt
+- Navigate to the project directory
+- pyinstaller --onedir --windowed ddaddasi.py
 
 # How it works
+

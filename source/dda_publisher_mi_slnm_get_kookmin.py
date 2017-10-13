@@ -1,7 +1,5 @@
-from selenium import webdriver
-from dda_publisher import Publisher
+from source.dda_publisher import Publisher
 # from seleniumrequests import PhantomJS
-import time
 
 """
 국민일보

@@ -1,4 +1,4 @@
-from dda_publisher import Publisher
+from source.dda_publisher import Publisher
 
 """
 뉴스1

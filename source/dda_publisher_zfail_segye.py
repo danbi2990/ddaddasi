@@ -1,9 +1,6 @@
-from dda_publisher import Publisher
-from seleniumrequests import PhantomJS
+from source.dda_publisher import Publisher
+
 # from selenium import webdriver
-from urllib.parse import quote
-import requests
-from bs4 import BeautifulSoup as bs
 
 """
 세계일보

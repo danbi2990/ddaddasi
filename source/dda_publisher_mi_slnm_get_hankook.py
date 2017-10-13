@@ -1,6 +1,4 @@
-from selenium import webdriver
-from dda_publisher import Publisher
-import time
+from source.dda_publisher import Publisher
 
 """
 한국일보

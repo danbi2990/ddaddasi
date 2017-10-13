@@ -1,15 +1,14 @@
-import threading
+import tkinter as tk
+import pickle as pk
 import tkinter as tk
 import webbrowser
+from multiprocessing import freeze_support
 from urllib.parse import quote
 
-import time
-
-import dda_upload_ddaddasi as up
 import ffong_article_factory as af
-import pickle as pk
-from selenium import webdriver
-from multiprocessing import Process, Queue, freeze_support
+
+from source import dda_upload_ddaddasi as up
+
 
 # pyinstaller --onedir --windowed ddaddasi.py
 # venv should be activated

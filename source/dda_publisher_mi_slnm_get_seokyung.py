@@ -1,5 +1,4 @@
-from selenium import webdriver
-from dda_publisher import Publisher
+from source.dda_publisher import Publisher
 
 """
 서울경제

@@ -1,24 +1,23 @@
-from dda_publisher import Publisher
+from source.dda_publisher import Publisher
 
 """
-한국경제
+헤럴드경제
 url:
-http://search.hankyung.com/apps.frm/search.news?query={}
-서울경제, 매일경제, 헤럴드경제
+http://biz.heraldcorp.com/search/?q={}&dt=1&nt=1&np=1&hq=
 """
 
 
-class HanKyung(Publisher):
+class Herald(Publisher):
     def __init__(self):
-        super().__init__("한국경제", "http://search.hankyung.com/apps.frm/search.news?query={}")
+        super().__init__("헤럴드경제", "http://biz.heraldcorp.com/search/?q={}&dt=1&nt=1&np=1&hq=")
 
     def navigate_article(self, bs_obj):
         try:
             # print(bs_obj)
-            tags = bs_obj.find("div", {"class":"section hk_news"}).find_all("em",{"class":"tit"})
+            tags = bs_obj.find_all("p",{"class":"ntitle"})
             # print(tags)
-            for em_tag in tags:
-                tag = em_tag.parent
+            for p_tag in tags:
+                tag = p_tag.a
                 # print(tag)
                 try:
                     self.articles.append({"title": tag.get_text().strip(), "publisher": self.name, "url": tag['href']})
@@ -28,7 +27,7 @@ class HanKyung(Publisher):
             pass
 
 
-# k = HanKyung()
+# k = Herald()
 # k.set_keyword('김정남')
 # k.run()
 # print(k.articles)

@@ -1,18 +1,19 @@
-from dda_publisher import Publisher
+from source.dda_publisher import Publisher
 
 """
-한겨레
-url: http://search.hani.co.kr/Search?command=query&keyword={}sort=d&period=all&media=news
+중앙
+url:
+http://search.joins.com/news?keyword={}&cloc=joongang|section|subsection
 """
 
 
-class Hani(Publisher):
+class Joins(Publisher):
     def __init__(self):
-        super().__init__("한겨레", "http://search.hani.co.kr/Search?command=query&keyword={}&sort=d&period=all&media=news")
+        super().__init__("중앙일보", "http://search.joins.com/news?keyword={}&cloc=joongang|section|subsection")
 
     def navigate_article(self, bs_obj):
         try:
-            tags = bs_obj.find("ul", {"class":"search-result-list"}).find_all("dt")
+            tags = bs_obj.find("div", {"class":"section_joongang"}).find_all("strong", {"class":"headline"})
             for tag in tags:
                 try:
                     a_tag = tag.find("a")
