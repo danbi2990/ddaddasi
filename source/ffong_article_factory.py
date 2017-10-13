@@ -68,14 +68,14 @@ def get_articles(keyword, result_q=None):
 
     # res += search_minor(keyword)
 
-    # timeout = time.time() + 10
-    # while True:
-    #     if not result_q.empty():
-    #         res += result_q.get()
-    #         break
-    #     if time.time() > timeout:
-    #         break
-    #
+    timeout = time.time() + 10
+    while True:
+        if not result_q.empty():
+            res += result_q.get()
+            break
+        if time.time() > timeout:
+            break
+
     end_time = time.time()
     print("Parent Duration: ", end_time - start_time)
 
