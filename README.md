@@ -1,4 +1,4 @@
-# Warning: This program is only for the *members* of [danbinews.com](http://www.danbinews.com/)
+# Warning: This program is only for the *members* of [danbinews](http://www.danbinews.com/)
 
 # What is it?
 It helps the members to upload 'ddaddasi' to the website.  
@@ -20,7 +20,7 @@ It helps the members to upload 'ddaddasi' to the website.
   MaeKyung(매일경제), Herald(헤럴드), NewsOne(뉴스원), MunHwa(문화일보)
 
 # Branch *multiprocessing*
-Above websites work well with plain *requests* module. However, some websites must be crawled by phantomjs.
+In most cases, it works well with plain *requests* module. However, some websites must be crawled by phantomjs.
 (HanKook(한국), KookMin(국민), YonHap(연합), SeoKyung(서울경제))
   
 *The problem is that phantomjs slows down the program.*  
