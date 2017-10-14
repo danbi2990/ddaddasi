@@ -26,5 +26,6 @@ In most cases, it works well with plain *requests* module. However, some website
 *The problem is that phantomjs slows down the program.*  
 
 To mitigate it, the branch *multiprocessing* forks a child process on starting
-and the child creates 4 threads of phantomjs. During the user fills the inputs, phantomjs instances will be initialised. 
+and the child creates 4 threads of phantomjs.
+During the user fills the inputs, phantomjs instances will be initialised and ready. 
 
