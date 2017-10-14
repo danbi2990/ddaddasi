@@ -1,11 +1,11 @@
-# Warning: This program is only for the *members* of [danbinews.com](http://www.danbinews.com/)
+# Warning: This program is only for the *members* of [danbinews](http://www.danbinews.com/)
 
 # What is it?
 It helps the members to upload 'ddaddasi' to the website.  
 'ddaddasi' roughly means 'news terminology' in Korean. (따끈따끈 시사용어)
 
 # How to build
-- Need Python 3.6 (32 bit)
+- Install Python 3.6
 - Create & Activate virtual environment
 - pip install -r requirements.txt
 - Navigate to ddaddasi/source directory
@@ -20,11 +20,12 @@ It helps the members to upload 'ddaddasi' to the website.
   MaeKyung(매일경제), Herald(헤럴드), NewsOne(뉴스원), MunHwa(문화일보)
 
 # Branch *multiprocessing*
-Above websites work well with plain *requests* module. However, some websites must be crawled by phantomjs.
+In most cases, it works well with plain *requests* module. However, some websites must be crawled by phantomjs.
 (HanKook(한국), KookMin(국민), YonHap(연합), SeoKyung(서울경제))
   
 *The problem is that phantomjs slows down the program.*  
 
 To mitigate it, the branch *multiprocessing* forks a child process on starting
-and the child creates 4 threads of phantomjs. During the user fills the inputs, phantomjs instances will be initialised. 
+and the child creates 4 threads of phantomjs.
+During the user fills the inputs, phantomjs instances will be initialised and ready. 
 
