@@ -29,3 +29,13 @@ In most cases, it works well with plain *requests* module. However, some website
 To mitigate it, the branch *multiprocessing* forks a child process on starting
 and the child creates 4 threads of phantoms.
 while a user filling inputs, the phantoms will be initialised and ready. 
+
+# Images
+Startup:  
+![First](https://i.imgur.com/ivrtL1H.png)
+
+On Search:  
+![On Search](https://i.imgur.com/zWHI41x.png)
+
+Before Upload:  
+![Imgur](https://i.imgur.com/J9iyyQX.png)
