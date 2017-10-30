@@ -1,4 +1,4 @@
-# <span style="color:red">*Warning*</span>: This program is only for the *members* of [danbinews](http://www.danbinews.com/)
+# *Warning*: This program is only for the *members* of [danbinews](http://www.danbinews.com/)
 
 # What is it?
 It helps the members to upload 'ddaddasi' to the website.  
@@ -23,7 +23,7 @@ It helps the members to upload 'ddaddasi' to the website.
 In most cases, it works well with plain *requests* module. However, some websites must be crawled by phantomjs.
 (HanKook(한국), KookMin(국민), YonHap(연합), SeoKyung(서울경제))
   
-*The problem is that phantomjs slows down the program.* That's why the master branch excludes the functionality.
+*The problem is that phantomjs slows down the program.* That's why the functionality removed from master branch.
 
 To mitigate it, the branch *multiprocessing* forks a child process on starting
 and the child creates 4 threads of phantoms.
