@@ -18,6 +18,7 @@ It helps the members to upload 'ddaddasi' to the website.
 - Here're the websites it crawls
   - Khan(경향), Hani(한겨래), ChoSun(조선), Joins(중앙), DongA(동아), Seoul(서울), NewSis(뉴시스), HanKyung(한국경제), 
   MaeKyung(매일경제), Herald(헤럴드), NewsOne(뉴스원), MunHwa(문화일보)
+- When the user clicks 'Upload', the inputs(Title, Definition, Explanation, Links to article) are wrapped with html tags and uploaded to the website.
 
 # Branch *multiprocessing*
 In most cases, it works well with plain *requests* module. However, some websites must be crawled by phantomjs.
@@ -27,4 +28,4 @@ In most cases, it works well with plain *requests* module. However, some website
 
 To mitigate it, the branch *multiprocessing* forks a child process on starting
 and the child creates 4 threads of phantoms.
-while an user filling inputs, the phantoms will be initialised and ready. 
+while a user filling inputs, the phantoms will be initialised and ready. 
