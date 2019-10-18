@@ -7,7 +7,7 @@ packaging==16.8
 PyInstaller==3.3
 pyparsing==2.1.10
 pypiwin32==220
-requests==2.13.0
+requests==2.20.0
 requests-file==1.4.1
 selenium==3.0.2
 six==1.10.0
